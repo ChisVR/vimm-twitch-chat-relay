@@ -1,0 +1,18 @@
+{
+
+	"twitch": {
+		
+		"username": "botusername",
+		"oauth": "TMI CHAT OAUTH",
+		"channel": ["Channel Name"],
+		"channelusername": "Channel Name"
+		
+	},
+	
+	"vimmtv": {
+	
+		"connect": "Channel Name"
+	
+	}
+
+}
