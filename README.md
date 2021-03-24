@@ -34,3 +34,7 @@ install packages by `npm i`
 Run BOT `node index.js`
 
 ```
+
+# NOTE: 
+
+## There be no Relay from Twitch to VimmTV yet since VimmTv doesnt have support send messages, when that Featire comes out. there will be feature soon.
