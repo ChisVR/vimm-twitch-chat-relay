@@ -11,7 +11,8 @@
 	
 	"vimmtv": {
 	
-		"connect": "Channel Name"
+		"connect": "Channel Name",
+		"token": "BOT TOKEN HERE"
 	
 	}
 
