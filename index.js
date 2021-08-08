@@ -1,7 +1,5 @@
 const config = require("./config.json");
 
-const Channel = ""; // Your channel's username
-
 const Vimm = require("vimm-chat-lib");
 const tmi = require('tmi.js');
 const chalk = require('chalk');
@@ -23,9 +21,9 @@ const ttvclient = new tmi.Client({
 });
 
 const chat = new Vimm.VimmChat({
-	
-	debug: false // Outputs heartbeat logs if true.
-	
+    token: config.vimmtv.token,
+    debug: false // Outputs heartbeat logs if true.
+
 })
 
 console.log(`
@@ -39,7 +37,7 @@ ${chalk.green('       Check BOT Creaotr Socials Below for Updates')}
 ${chalk.grey('--------------------------------------------------')}
 `);
 
-    console.log(`
+console.log(`
 ${chalk.grey('--------------------------------------------------')}
 ${chalk.yellow('                   Creator Of BOT ')}
 ${chalk.green('            Username: ') + 'ChisdealHDYT#7172'}
@@ -52,58 +50,62 @@ ${chalk.grey('--------------------------------------------------')}
 `);
 
 ttvclient.connect();
- 
-ttvclient.on('connected', (address, port) => {
- 
-	console.log("Connected to Twitch IRC");
-  
-	function Connect(){
-		
-		chat.connect(config.vimmtv.connect).then(meta => {
-		
-			chat.on("message", msg => {
-			
-				//console.log(msg)
-			
-				ttvclient.say(config.twitch.channelusername, `[VIMM] ${msg.chatter}: ${msg.message}`);
-			
-			
-					/*if(msg.message == "!close"){
-						chat.close() // This !close command will turn the bot off
-					}*/
-			     
-      
-			})
-				
-			chat.on("close", event => {
-				
-				console.log(event)
-				
-				//if(event == 1005){ // Uncomment these lines if you want to test out the reconnect function with !close command.
-				
-					//	chat.connect(Channel) 
-					
-				//}
-				
-				if(event == 1006){
-					
-					chat.connect(config.vimmtv.connect) // If Abnormal disconnect (1006), Glimesh Bot reconnects.
-					
-				}
-			})
-   
-			ttvclient.on('message', (channel, tags, message, self) => {
-        
-				if (self) return;
-            
-				//chat.sendMessage(`[TWITCH] ${tags.username}: ${message}`);
-        
-			});
-		
-		})
-  
-	}
 
-	Connect();
-	
+ttvclient.on('connected', (address, port) => {
+
+    console.log("Connected to Twitch IRC");
+
+    function Connect() {
+
+        chat.connect(config.vimmtv.connect).then(meta => {
+
+            chat.on("message", msg => {
+
+                console.log(msg)
+
+                if (msg.prefix == "[bot]") return
+
+                ttvclient.say(config.twitch.channelusername, `[VIMM] ${msg.chatter}: ${msg.message}`);
+
+
+                if (msg.message == "!hey") {
+                    chat.sendMessage(config.vimmtv.connect, `HELLO THERE, NICE MEET YOU!`)
+                }
+
+
+            })
+
+            chat.on("close", event => {
+
+                console.log(event)
+
+                //if(event == 1005){ // Uncomment these lines if you want to test out the reconnect function with !close command.
+
+                //	chat.connect(Channel) 
+
+                //}
+
+                if (event == 1006) {
+
+                    chat.connect(config.vimmtv.connect) // If Abnormal disconnect (1006), Glimesh Bot reconnects.
+
+                }
+            })
+
+            ttvclient.on('message', (channel, tags, message, self) => {
+
+                if (self) return;
+
+                if (tags.username == config.twitch.username) return
+
+                chat.sendMessage(config.vimmtv.connect, `[TWITCH] ${tags.username}: ${message}`);
+
+            });
+
+        })
+
+    }
+
+    Connect();
+
 });
